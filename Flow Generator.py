@@ -1,12 +1,14 @@
 import os
 from numpy import *
 from PIL import Image
-from scipy import ndimage
+#from scipy import ndimage
+import scipy
 import png
 import numpy as np
 from numpy import array
 from scipy import misc
 import math
+import imageio
 
 def main():
     print('started')
@@ -24,6 +26,8 @@ def ciww1():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
     AspectRatio=530.0/400.0
     PixelsX=int(round(PixelsY/AspectRatio,0))#How many pixels across
     y=array([[0.0] * PixelsX] * PixelsY) #Array to represent velocity from top to bottom. Bottom to top is increase in direction 2, left to right is increase in direction 1.
@@ -53,7 +57,7 @@ def ciww1():
     Radius2=6000.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=-0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
     #CURVE 3
@@ -73,7 +77,7 @@ def ciww1():
     Radius2=20.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=1.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
     #CURVE 4
@@ -99,22 +103,22 @@ def ciww1():
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
     print('saving 1')
-    misc.imsave('ciww1x.png', x)# uses the Image module (PIL)
+    x=(x+1000*255/1000)
+    #x = round(x*255/)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww1x.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('ciww1y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww1y.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('ciww1w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww1w.png', w)# uses the Image module (PIL)
 
         #Writes array of locations
-    global x
-    global y
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
             A=A + '(X=' + str(x[i,j])+',Y=' + str(y[i,j])+',Z=0.000000),'  
     A=A[0:len(A)-1] +')"'
     print('saving 3')
-    with open('Cardiff1.csv', 'w') as wf:
+    with open('Unreal Stuff\FlowMaps\Cardiff1.csv', 'w') as wf:
         wf.write('---,Cardiff1,Cardiff1Size\n')
         wf.write(A)
         wf.write(',"(X=' + str(PixelsY) +',Y=' + str(PixelsX) +',Z=0.000000)"')
@@ -127,6 +131,10 @@ def ciww2():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
+    global w
+    
     AspectRatio=203.0/213.0
     PixelsX=int(round(PixelsY/AspectRatio,0))#How many pixels across
     y=array([[0.0] * PixelsX] * PixelsY) #Array to represent velocity from top to bottom. Bottom to top is increase in direction 2, left to right is increase in direction 1.
@@ -169,17 +177,13 @@ def ciww2():
 
 
     print('saving 1')
-    misc.imsave('ciww2x.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww2x.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('ciww2y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww2y.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('ciww2w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww2w.png', w)# uses the Image module (PIL)
 
-        #Writes array of locations
-    global x
-    global y
-    global w
-    
+    #Writes array of locations
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
@@ -196,6 +200,10 @@ def ciww3():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
+    global w
+    
     AspectRatio=203.0/213.0
     PixelsX=int(round(PixelsY/AspectRatio,0))#How many pixels across
     y=array([[0.0] * PixelsX] * PixelsY) #Array to represent velocity from top to bottom. Bottom to top is increase in direction 2, left to right is increase in direction 1.
@@ -242,21 +250,18 @@ def ciww3():
     SideFlows.extend([0.1,0.7,0.15,0.15,60,7])
     
     print(SideFlows)
-    #SideFlows=0
+    #SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
     print('saving 1')
-    misc.imsave('ciww3x.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww3x.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('ciww3y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww3y.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('ciww3w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww3w.png', w)# uses the Image module (PIL)
     #print('yes')
 
         #Writes array of locations
-    global x
-    global y
-    global w
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
@@ -274,6 +279,9 @@ def ciww4():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
+    
     AspectRatio=203.0/213.0
     PixelsX=int(round(PixelsY/AspectRatio,0))#How many pixels across
     y=array([[0.0] * PixelsX] * PixelsY) #Array to represent velocity from top to bottom. Bottom to top is increase in direction 2, left to right is increase in direction 1.
@@ -312,19 +320,14 @@ def ciww4():
     #NoFlow=[0.75,0.17,0.05,0.05]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
     
-
-
-    
     print('saving 1')
-    misc.imsave('ciww4x.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww4x.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('ciww4y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww4y.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('ciww4w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww4w.png', w)# uses the Image module (PIL)
 
         #Writes array of locations
-    global x
-    global y
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
@@ -343,6 +346,8 @@ def ciww5():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
     AspectRatio=203.0/213.0
     PixelsX=int(round(PixelsY/AspectRatio,0))#How many pixels across
     y=array([[0.0] * PixelsX] * PixelsY) #Array to represent velocity from top to bottom. Bottom to top is increase in direction 2, left to right is increase in direction 1.
@@ -373,7 +378,7 @@ def ciww5():
     Radius2=4000.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=-0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
@@ -402,15 +407,13 @@ def ciww5():
 
 
     print('saving 1')
-    misc.imsave('ciww5x.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww5x.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('ciww5y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww5y.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('ciww5w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww5w.png', w)# uses the Image module (PIL)
 
         #Writes array of locations
-    global x
-    global y
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
@@ -428,6 +431,8 @@ def ciww6():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
     AspectRatio=203.0/213.0
     PixelsX=int(round(PixelsY/AspectRatio,0))#How many pixels across
     y=array([[0.0] * PixelsX] * PixelsY) #Array to represent velocity from top to bottom. Bottom to top is increase in direction 2, left to right is increase in direction 1.
@@ -458,7 +463,7 @@ def ciww6():
     Radius2=400.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=-0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
@@ -492,15 +497,13 @@ def ciww6():
 
 
     print('saving 1')
-    misc.imsave('ciww6x.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww6x.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('ciww6y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww6y.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('ciww6w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww6w.png', w)# uses the Image module (PIL)
 
         #Writes array of locations
-    global x
-    global y
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
@@ -518,6 +521,8 @@ def ciww7():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
     AspectRatio=203.0/213.0                      #How many pixels down (determines pixels across too as pixels will always be square)
     PixelsX=int(round(PixelsY/AspectRatio,0))#How many pixels across
     y=array([[0.0] * PixelsX] * PixelsY) #Array to represent velocity from top to bottom. Bottom to top is increase in direction 2, left to right is increase in direction 1.
@@ -548,7 +553,7 @@ def ciww7():
     Radius2=400.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=-0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
@@ -578,15 +583,13 @@ def ciww7():
 
 
     print('saving 1')
-    misc.imsave('ciww7x.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww7x.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('ciww7y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww7y.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('ciww7w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww7w.png', w)# uses the Image module (PIL)
 
         #Writes array of locations
-    global x
-    global y
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
@@ -604,6 +607,8 @@ def ciww8():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
     AspectRatio=203.0/213.0
     PixelsX=int(round(PixelsY/AspectRatio,0))#How many pixels across
     y=array([[0.0] * PixelsX] * PixelsY) #Array to represent velocity from top to bottom. Bottom to top is increase in direction 2, left to right is increase in direction 1.
@@ -634,7 +639,7 @@ def ciww8():
     Radius2=400.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=-0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
@@ -665,15 +670,13 @@ def ciww8():
 
 
     print('saving 1')
-    misc.imsave('ciww8x.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww8x.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('ciww8y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww8y.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('ciww8w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww8w.png', w)# uses the Image module (PIL)
 
         #Writes array of locations
-    global x
-    global y
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
@@ -691,6 +694,8 @@ def ciww9():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
     AspectRatio=203.0/213.0
     PixelsX=int(round(PixelsY/AspectRatio,0))#How many pixels across
     y=array([[0.0] * PixelsX] * PixelsY) #Array to represent velocity from top to bottom. Bottom to top is increase in direction 2, left to right is increase in direction 1.
@@ -721,7 +726,7 @@ def ciww9():
     Radius2=400.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=-0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
@@ -754,15 +759,13 @@ def ciww9():
 
 
     print('saving 1')
-    misc.imsave('ciww9x.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww9x.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('ciww9y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww9y.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('ciww9w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww9w.png', w)# uses the Image module (PIL)
 
         #Writes array of locations
-    global x
-    global y
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
@@ -780,6 +783,8 @@ def ciww10():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
     AspectRatio=203.0/213.0
     ixelsX=int(round(PixelsY/AspectRatio,0))#How many pixels across
     y=array([[0.0] * PixelsX] * PixelsY) #Array to represent velocity from top to bottom. Bottom to top is increase in direction 2, left to right is increase in direction 1.
@@ -810,7 +815,7 @@ def ciww10():
     Radius2=400.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=-0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
@@ -831,20 +836,18 @@ def ciww10():
     Radius2=30.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
     print('saving 1')
-    misc.imsave('ciww10x.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww10x.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('ciww10y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww10y.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('ciww10w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww10w.png', w)# uses the Image module (PIL)
 
         #Writes array of locations
-    global x
-    global y
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
@@ -862,6 +865,8 @@ def ciww11():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
     AspectRatio=203.0/213.0
     PixelsX=int(round(PixelsY/AspectRatio,0))#How many pixels across
     y=array([[0.0] * PixelsX] * PixelsY) #Array to represent velocity from top to bottom. Bottom to top is increase in direction 2, left to right is increase in direction 1.
@@ -892,7 +897,7 @@ def ciww11():
     Radius2=400.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=-0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
@@ -913,20 +918,18 @@ def ciww11():
     Radius2=30.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
     print('saving 1')
-    misc.imsave('ciww11x.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww11x.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('ciww11y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww11y.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('ciww11w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww11w.png', w)# uses the Image module (PIL)
 
         #Writes array of locations
-    global x
-    global y
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
@@ -944,6 +947,8 @@ def ciww12():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
     AspectRatio=203.0/213.0
     PixelsX=int(round(PixelsY/AspectRatio,0))#How many pixels across
     y=array([[0.0] * PixelsX] * PixelsY) #Array to represent velocity from top to bottom. Bottom to top is increase in direction 2, left to right is increase in direction 1.
@@ -973,7 +978,7 @@ def ciww12():
     Radius2=40.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=-0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
@@ -994,20 +999,18 @@ def ciww12():
     Radius2=30.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
     print('saving 1')
-    misc.imsave('ciww12x.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww12x.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('ciww12y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww12y.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('ciww12w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww12w.png', w)# uses the Image module (PIL)
 
         #Writes array of locations
-    global x
-    global y
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
@@ -1025,6 +1028,8 @@ def ciww13():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
     AspectRatio=203.0/213.0
     PixelsX=int(round(PixelsY/AspectRatio,0))#How many pixels across
     y=array([[0.0] * PixelsX] * PixelsY) #Array to represent velocity from top to bottom. Bottom to top is increase in direction 2, left to right is increase in direction 1.
@@ -1055,7 +1060,7 @@ def ciww13():
     Radius2=400.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=-0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
@@ -1076,20 +1081,18 @@ def ciww13():
     Radius2=30.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
     print('saving 1')
-    misc.imsave('ciww13x.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww13x.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('ciww13y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww13y.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('ciww13w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\ciww13w.png', w)# uses the Image module (PIL)
 
         #Writes array of locations
-    global x
-    global y
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
@@ -1107,6 +1110,8 @@ def testcurve():
     global PixelsX#                       How many times longer it is than it is wide
     global PixelsY#                            How many pixels down (determines pixels across too as pixels will always be square)
     global AspectRatio
+    global x
+    global y
     #AspectRatio=963.0/1049.0
     AspectRatio=963.0/2098.0
     PixelsY=100#                            How many pixels down (determines pixels across too as pixels will always be square)
@@ -1149,20 +1154,18 @@ def testcurve():
     Radius2=4.0*PixelsX/100#                Radius of curve 2
     RadiusScale2=-0.0#                      Fraction multiplier to be applied to width of curve 2, linearly as the angle increases from its initial to final value.
     ScaleY2=1.0/1.0#                        How much longer curve 2 is than wide
-    SideFlows=0
+    SideFlows=[0,0]
     list1=b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed)
 
 
     print('saving 1')
-    misc.imsave('testcurvex.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\testcurvex.png', x)# uses the Image module (PIL)
     print('saving 2')
-    misc.imsave('testcurvey.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\testcurvey.png', y)# uses the Image module (PIL)
     print('saving 3')
-    misc.imsave('testcurvew.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\testcurvew.png', w)# uses the Image module (PIL)
 
         #Writes array of locations
-    global x
-    global y
     A='NewRow,"('
     for i in range (PixelsY-1,-1,-1):
         for j in range (0,PixelsX):
@@ -1420,8 +1423,7 @@ def b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusD
     #SideFlows=[0.15,0.35,0.25,0.25,90.1,1]
     
 
-
-    while SideFlows>3: #what, why?
+    while len(SideFlows)>3:
 
         if SideFlows[5]<5 or SideFlows[5]==7: #Should this be all of the time?
             theta2=SideFlows[4]+90
@@ -1721,7 +1723,7 @@ def b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusD
             SideFlows=SideFlows[6:len(SideFlows)]
             print(SideFlows)
         else:
-            SideFlows=0
+            SideFlows=[0,0]
     for loo in range (0, int(floor(PixelsX/50))):
         for i in range (1,PixelsY-1):
                 for j in range (1,PixelsX-1):
@@ -1734,11 +1736,12 @@ def b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusD
     y[0,1]=1000
     #print('curve 2 plotted')
     #print('saving 1')
-    misc.imsave('Avon1x.png', x)# uses the Image module (PIL)
+    #scipy.imageio.imwrite('Unreal Stuff\FlowMaps\Avon1x.png', x)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\Avon1x.png', x)# uses the Image module (PIL)
     #print('saving 2')
-    misc.imsave('Avon1y.png', y)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\Avon1y.png', y)# uses the Image module (PIL)
     #print('saving 3')
-    misc.imsave('Avon1w.png', w)# uses the Image module (PIL)
+    imageio.imwrite('Unreal Stuff\FlowMaps\Avon1w.png', w)# uses the Image module (PIL)
     print('images saved...')
     print(max(x[75,:]))
     print(max(x[:,75]))
@@ -1749,7 +1752,7 @@ def b(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusD
 
 
 ciww1()
-ciww12()
+#ciww12()
 #ciww2()
 #ciww3()
 #ciww4()
