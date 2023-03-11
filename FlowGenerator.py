@@ -18,27 +18,28 @@ def declarations(PixelsY,Aspect_Ratio_Pixels):
     Perpendicular_Flows=[0,0]
     return(Pixels_X,Velocity_Y,Velocity_X,Foam,Last_Radius_Scale_Factor,Perpendicular_Flows)
 
-def SaveResult(PixelsY,PixelsX,x,y,w,filename):
-    print(filename)
-    print('saving x image')
-    imageio.imwrite(f'Unreal Stuff\FlowMaps\{filename}x.png', x)# uses the Image module (PIL)
-    print('saving y image')
-    imageio.imwrite(f'Unreal Stuff\FlowMaps\{filename}y.png', y)# uses the Image module (PIL)
-    print('saving w image')
-    imageio.imwrite(f'Unreal Stuff\FlowMaps\{filename}w.png', w)# uses the Image module (PIL)
-
-    #Writes array of locations
-    print('writing array')
-    A='NewRow,"('
-    for i in range (PixelsY-1,-1,-1):
-        for j in range (0,PixelsX):
-            A=A + '(X=' + str(x[i,j])+',Y=' + str(y[i,j])+',Z=0.000000),'  
-    A=A[0:len(A)-1] +')"'
-    print('saving array')
-    with open(f'Unreal Stuff\FlowMaps\{filename}.csv', 'w') as wf:
-        wf.write('---,Cardiff1,Cardiff1Size\n')
-        wf.write(A)
-        wf.write(',"(X=' + str(PixelsY) +',Y=' + str(PixelsX) +',Z=0.000000)"')
+def SaveResult(PixelsY,PixelsX,x,y,w,filename,mode):
+    if mode==1 or mode==2:
+        print(filename)
+        print('saving x image')
+        imageio.imwrite(f'C:\\Users\\angus\\OneDrive\\Documents\\Unreal Stuff\\FlowMaps\\{filename}x.png', x)
+        print('saving y image')
+        imageio.imwrite(f'C:\\Users\\angus\\OneDrive\\Documents\\Unreal Stuff\\FlowMaps\\{filename}y.png', y)
+        print('saving w image')
+        imageio.imwrite(f'C:\\Users\\angus\\OneDrive\\Documents\\Unreal Stuff\\FlowMaps\\{filename}w.png', w)
+    if mode==1 or mode==3:
+        #Writes array of locations
+        print('writing array')
+        A='NewRow,"('
+        for i in range (PixelsY-1,-1,-1):
+            for j in range (0,PixelsX):
+                A=A + '(X=' + str(x[i,j])+',Y=' + str(y[i,j])+',Z=0.000000),'  
+        A=A[0:len(A)-1] +')"'
+        print('saving array')
+        with open(f'C:\\Users\\angus\\OneDrive\\Documents\\Unreal Stuff\\FlowMaps\\{filename}.csv', 'w') as wf:
+            wf.write('---,Cardiff1,Cardiff1Size\n')
+            wf.write(A)
+            wf.write(',"(X=' + str(PixelsY) +',Y=' + str(PixelsX) +',Z=0.000000)"')
     print("done")
 
 def Generate(AspectRatio,PixelsY,Clockwise,CentreX,CentreY,theta0,theta,Radius1,RadiusDiff1,RadiusScale,ScaleY,theta5,Radius2,RadiusScale2,ScaleY2,RadiusScaleFactorOld,SideFlows,MasterSpeed,x,y,w):
